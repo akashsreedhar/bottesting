@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telegram Web App</title>
+    <script>
+        // Get chat_id from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const chatId = urlParams.get('chat_id');
+
+        function sendData() {
+            const name = document.getElementById('nameInput').value;
+            if (name && chatId) {
+                fetch('/submit', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ name: name, chatId: chatId })
+                })
+                .then(response => {
+                    // Try to close the web app using Telegram WebApp API if available
+                    if (window.Telegram && window.Telegram.WebApp) {
+                        window.Telegram.WebApp.close();
+                    } else {
+                        window.close();
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Enter Your Name</h1>
+    <form onsubmit="event.preventDefault(); sendData();">
+        <input type="text" id="nameInput" placeholder="Your Name" required>
+        <button type="submit">Done</button>
+    </form>
+</body>
+</html>
