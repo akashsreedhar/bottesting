@@ -6,21 +6,22 @@
     <title>Order Mini App</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script>
-        // Get username from query param
-        function getUsername() {
-            const params = new URLSearchParams(window.location.search);
-            return params.get('username') || '';
-        }
-
         window.onload = function() {
-            const username = getUsername();
+            let username = '';
+            if (
+                window.Telegram &&
+                window.Telegram.WebApp &&
+                window.Telegram.WebApp.initDataUnsafe &&
+                window.Telegram.WebApp.initDataUnsafe.user
+            ) {
+                username = window.Telegram.WebApp.initDataUnsafe.user.first_name;
+            }
             document.getElementById('greeting').textContent = username
                 ? `Hi ${username}!`
                 : 'Hi!';
         };
 
         function sendOrder() {
-            // No need to collect form data, just notify bot
             if (window.Telegram && window.Telegram.WebApp) {
                 window.Telegram.WebApp.sendData("send_order");
             } else {

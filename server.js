@@ -9,11 +9,6 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + '/public/index.html');
 });
 
-app.post('/submit', (req, res) => {
-    // This server does not send Telegram messages, just responds
-    res.send('<h1>Thank you!</h1><p>Your name has been submitted.</p>');
-});
-
 app.listen(port, () => {
     console.log(`Web app listening at http://localhost:${port}`);
 });
