@@ -3,13 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Telegram Web App</title>
+    <title>Order Entry</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script>
-        function sendData() {
-            const name = document.getElementById('nameInput').value;
-            if (name && window.Telegram && window.Telegram.WebApp) {
-                window.Telegram.WebApp.sendData(name);
+        function sendOrder() {
+            const order = {
+                item: document.getElementById('itemInput').value,
+                quantity: document.getElementById('qtyInput').value,
+                notes: document.getElementById('notesInput').value
+            };
+            if (window.Telegram && window.Telegram.WebApp) {
+                window.Telegram.WebApp.sendData(JSON.stringify(order));
             } else {
                 alert('Telegram Mini App context not found!');
             }
@@ -17,10 +21,12 @@
     </script>
 </head>
 <body>
-    <h1>Enter Your Name</h1>
-    <form onsubmit="event.preventDefault(); sendData();">
-        <input type="text" id="nameInput" placeholder="Your Name" required>
-        <button type="submit">Done</button>
+    <h1>Enter Order Details</h1>
+    <form onsubmit="event.preventDefault(); sendOrder();">
+        <input type="text" id="itemInput" placeholder="Item" required>
+        <input type="number" id="qtyInput" placeholder="Quantity" required>
+        <input type="text" id="notesInput" placeholder="Notes (optional)">
+        <button type="submit">Send Order</button>
     </form>
 </body>
 </html>
