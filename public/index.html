@@ -4,30 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Telegram Web App</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script>
-        // Get chat_id from URL
-        const urlParams = new URLSearchParams(window.location.search);
-        const chatId = urlParams.get('chat_id');
-
         function sendData() {
             const name = document.getElementById('nameInput').value;
-            if (name && chatId) {
-                fetch('/submit', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ name: name, chatId: chatId })
-                })
-                .then(response => {
-                    // Try to close the web app using Telegram WebApp API if available
-                    if (window.Telegram && window.Telegram.WebApp) {
-                        window.Telegram.WebApp.close();
-                    } else {
-                        window.close();
-                    }
-                })
-                .catch(error => console.error('Error:', error));
+            if (name && window.Telegram && window.Telegram.WebApp) {
+                window.Telegram.WebApp.sendData(name);
+            } else {
+                alert('Telegram Mini App context not found!');
             }
         }
     </script>
