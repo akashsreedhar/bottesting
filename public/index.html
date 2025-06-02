@@ -19,6 +19,14 @@
             document.getElementById('greeting').textContent = username
                 ? `Hi ${username}!`
                 : 'Hi!';
+
+            // Debug output: show initDataUnsafe as JSON in the web app
+            document.body.insertAdjacentHTML(
+                'beforeend',
+                '<pre style="font-size:12px;background:#eee;padding:8px;">' +
+                JSON.stringify(window.Telegram?.WebApp?.initDataUnsafe, null, 2) +
+                '</pre>'
+            );
         };
 
         function sendOrder() {
